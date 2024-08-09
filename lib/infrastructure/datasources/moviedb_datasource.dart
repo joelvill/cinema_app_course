@@ -1,10 +1,11 @@
+import 'package:cinema_app_course/infrastructure/models/moviedb/movie_details.dart';
 import 'package:dio/dio.dart';
 
 import '../../config/constants/environment.dart';
 import '../../dominio/datasources/movies_datasources.dart';
 import '../../dominio/entities/movie.dart';
 import '../mappers/movie_mapper.dart';
-import 'models/moviedb/moviedb_response.dart';
+import '../models/moviedb/moviedb_response.dart';
 
 class MovieDBDataSource extends MoviesDataSource {
   final dio = Dio(
@@ -63,5 +64,16 @@ class MovieDBDataSource extends MoviesDataSource {
     });
     final movies = _jsonToMovies(response.data);
     return movies;
+  }
+
+  @override
+  Future<Movie> getMovieById(String id) async {
+    final response = await dio.get('/movie/$id');
+    if (response.statusCode != 200) throw Exception('Error getting movie');
+
+    final movieDB = MovieDetails.fromJson(response.data);
+    final movie = MovieMapper.movieDetailsToEntity(movieDB);
+
+    return movie;
   }
 }
