@@ -230,7 +230,7 @@ class _ActorsByMovie extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Actor phono
+                // Actor photo
                 FadeInRight(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
